@@ -18,7 +18,7 @@ var getJSON = function(url, callback) {
 function info_update(fields) {
     document.getElementById("status").innerHTML = fields.etatremplissage;
 
-    if (fields.etatremplissage === "OUVERT"){
+    if (fields.etatremplissage === "LIBRE"){
         document.getElementById("status").style = "color: GREEN;";
         document.getElementById("places").innerHTML = fields.jrdinfosoliste;
     }else{
