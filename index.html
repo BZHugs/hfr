@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-    <script src="HFR.js"></script>
+    <meta charset="UTF-8">
+    <script src="parkings.js"></script>
+    <style>
+        .grid-container {
+            display: grid;
+            /* grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); */
+            grid-gap: 20px;
+        }
+
+        .grid-item {
+            text-align: center;
+            border: solid 1px black;
+        }
+
+        @media (min-width: 480px) {
+            .grid-container {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Henri Fréville</h1>
-        <h2 id="status"></h2>
-        <h3 id="places"></h3>
-    </div>
+    <div id="container" class="grid-container"></div>
+</div>
 </body>
 </html>
