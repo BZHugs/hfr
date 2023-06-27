@@ -49,6 +49,7 @@ function update() {
           if (err !== null) {
             alert('Something went wrong: ' + err);
           } else {
+            document.getElementById("container").innerHTML = '';
             data.records.forEach(record => {
               console.log(record)
               info_update(record.fields);
