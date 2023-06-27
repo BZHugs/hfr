@@ -1,5 +1,10 @@
 var url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=tco-parcsrelais-star-etat-tr&q=&lang=fr&timezone=Europe%2FParis"
 
+function openMap(name, x, y) {
+  let coord = x+","+y;
+  window.open("maps://?q="+encodeURIComponent(name)+"&near="+coord+"&ll="+coord+"&sll="+coord);
+}
+
 var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -16,14 +21,14 @@ var getJSON = function(url, callback) {
 };
 
 function info_update(fields) {
-
   const container = document.createElement("div");
+  container.className = 'grid-item';
+  container.setAttribute("onclick", "openMap('"+fields.nom+"', '"+fields.coordonnees[0]+"', '"+fields.coordonnees[1]+"')")
+
   const title = document.createElement("h1");
   const status = document.createElement("h2");
   const places = document.createElement("h3");
 
-  container.className = 'grid-item';
-  
   title.innerHTML = fields.nom;
   status.innerHTML = fields.etatremplissage;
   places.innerHTML = "";
@@ -51,7 +56,6 @@ function update() {
           } else {
             document.getElementById("container").innerHTML = '';
             data.records.forEach(record => {
-              console.log(record)
               info_update(record.fields);
             });
           }
@@ -60,5 +64,5 @@ function update() {
 
 update();
 
-setInterval(update, 1000 * 60)
+setInterval(update, 1000*30)
 
