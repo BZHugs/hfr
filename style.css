@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.grid-container {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.grid-item {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.grid-item h1,
+.grid-item h2,
+.grid-item h3 {
+  margin: 0.5rem 0;
+}
+
+.status-free {
+  color: #2e7d32;
+}
+
+.status-full {
+  color: #c62828;
+}
+
+@media (min-width: 480px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
