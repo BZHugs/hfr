@@ -2,7 +2,8 @@ var url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=tco-p
 
 function openMap(name, x, y) {
   let coord = x+","+y;
-  window.open("maps://?q="+encodeURIComponent(name)+"&near="+coord+"&ll="+coord+"&sll="+coord);
+  const query = encodeURIComponent(`${name} (${coord})`);
+  window.open(`https://www.google.com/maps/search/?api=1&query=${query}`);
 }
 
 var getJSON = function(url, callback) {
