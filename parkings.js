@@ -34,10 +34,10 @@ function info_update(fields) {
   places.innerHTML = "";
 
   if (fields.etatremplissage === "LIBRE"){
-    status.style = "color: GREEN;";
+    status.className = "status-free";
     places.innerHTML = fields.jrdinfosoliste;
   }else{
-    status.style = "color: RED;";
+    status.className = "status-full";
     places.innerHTML = "";
   }
 
