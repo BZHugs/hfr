@@ -1,68 +1,83 @@
 var url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=tco-parcsrelais-star-etat-tr&q=&lang=fr&timezone=Europe%2FParis"
 
 function openMap(name, x, y) {
-  let coord = x+","+y;
-  window.open("maps://?q="+encodeURIComponent(name)+"&near="+coord+"&ll="+coord+"&sll="+coord);
+  let coord = x + "," + y;
+  window.open("maps://?q=" + encodeURIComponent(name) + "&near=" + coord + "&ll=" + coord + "&sll=" + coord);
 }
 
 var getJSON = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status === 200) {
-        callback(null, xhr.response);
-      } else {
-        callback(status, xhr.response);
-      }
-    };
-    xhr.send();
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'json';
+  xhr.onload = function() {
+    var status = xhr.status;
+    if (status === 200) {
+      callback(null, xhr.response);
+    } else {
+      callback(status, xhr.response);
+    }
+  };
+  xhr.send();
 };
 
 function info_update(fields) {
   const container = document.createElement("div");
   container.className = 'grid-item';
-  container.setAttribute("onclick", "openMap('"+fields.nom+"', '"+fields.coordonnees[0]+"', '"+fields.coordonnees[1]+"')")
+  container.setAttribute(
+    "onclick",
+    "openMap('" + fields.nom + "', '" + fields.coordonnees[0] + "', '" + fields.coordonnees[1] + "')"
+  );
 
   const title = document.createElement("h1");
   const status = document.createElement("h2");
   const places = document.createElement("h3");
+  const elecPlaces = document.createElement("h3"); // <-- ajout pour les places électriques
 
   title.innerHTML = fields.nom;
   status.innerHTML = fields.etatremplissage;
   places.innerHTML = "";
 
-  if (fields.etatremplissage === "LIBRE"){
+  if (fields.etatremplissage === "LIBRE") {
     status.className = "status-free";
     places.innerHTML = fields.jrdinfosoliste;
-  }else{
+  } else {
     status.className = "status-full";
     places.innerHTML = "";
+  }
+
+  // Ajout : affichage places électriques libres / capacité totale
+  // On n'affiche que si une capacité VE est définie et > 0
+  if (fields.capaciteve && fields.capaciteve > 0) {
+    elecPlaces.innerHTML = "VE : " + fields.jrdinfoelectrique + " / " + fields.capaciteve;
+  } else {
+    // Si pas de bornes, tu peux soit masquer, soit afficher un texte
+    // Décommente la ligne suivante si tu veux l'afficher
+    // elecPlaces.innerHTML = "VE : aucune borne";
+    elecPlaces.style.display = "none";
   }
 
   container.appendChild(title);
   container.appendChild(status);
   container.appendChild(places);
+  container.appendChild(elecPlaces); // <-- on ajoute la ligne au container
 
   document.getElementById("container").appendChild(container);
 }
 
 function update() {
-    getJSON(url,
-        function(err, data) {
-          if (err !== null) {
-            alert('Something went wrong: ' + err);
-          } else {
-            document.getElementById("container").innerHTML = '';
-            data.records.forEach(record => {
-              info_update(record.fields);
-            });
-          }
+  getJSON(url,
+    function(err, data) {
+      if (err !== null) {
+        alert('Something went wrong: ' + err);
+      } else {
+        document.getElementById("container").innerHTML = '';
+        data.records.forEach(record => {
+          info_update(record.fields);
+        });
+      }
     });
 }
 
 update();
 
-setInterval(update, 1000*30)
-
+setInterval(update, 1000 * 30);
